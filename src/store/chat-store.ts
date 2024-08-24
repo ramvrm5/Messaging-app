@@ -24,7 +24,7 @@ type ConversationStore = {
   setSelectedConversation: (conversation: Conversation | null) => void;
 };
 
-export const useConversationsSTore = create<ConversationStore>((set) => ({
+export const useConversationsStore = create<ConversationStore>((set) => ({
   selectedConversation: null,
   setSelectedConversation: (conversation) =>
     set({ selectedConversation: conversation }),

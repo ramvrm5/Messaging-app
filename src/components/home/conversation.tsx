@@ -4,7 +4,7 @@ import { MessageSeenSvg } from "@/lib/svgs";
 import { ImageIcon, Users, VideoIcon } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useConversationsSTore } from "@/store/chat-store";
+import { useConversationsStore } from "@/store/chat-store";
 
 const Conversation = ({ conversation }: { conversation: any }) => {
     const conversationImage = conversation.groupImage || conversation.image;
@@ -14,7 +14,7 @@ const Conversation = ({ conversation }: { conversation: any }) => {
     const me = useQuery(api.users.getMe);
 
 
-    const { setSelectedConversation, selectedConversation } = useConversationsSTore();
+    const { setSelectedConversation, selectedConversation } = useConversationsStore();
     const activeBgClass = selectedConversation?._id === conversation._id
 
 

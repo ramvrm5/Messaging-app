@@ -5,10 +5,10 @@ import MessageInput from "./message-input";
 import MessageContainer from "./message-container";
 import ChatPlaceHolder from "@/components/home/chat-placeholder";
 import GroupMembersDialog from "./group-members-dialog";
-import { useConversationsSTore } from "@/store/chat-store";
+import { useConversationsStore } from "@/store/chat-store";
 
 const RightPanel = () => {
-    const { selectedConversation, setSelectedConversation } = useConversationsSTore();
+    const { selectedConversation, setSelectedConversation } = useConversationsStore();
     if (!selectedConversation) return <ChatPlaceHolder />;
 
     const conversationName = selectedConversation.groupName || selectedConversation.name;
