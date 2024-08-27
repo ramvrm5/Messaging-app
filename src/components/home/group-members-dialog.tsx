@@ -14,11 +14,10 @@ import { api } from "../../../convex/_generated/api";
 
 type GroupMembersDialogProps = {
     selectedConversation: Conversation;
-}
+};
 
 const GroupMembersDialog = ({ selectedConversation }: GroupMembersDialogProps) => {
-    const users = useQuery(api.users.getGroupMembers, { conversationId: selectedConversation._id })
-
+    const users = useQuery(api.users.getGroupMembers, { conversationId: selectedConversation._id });
     return (
         <Dialog>
             <DialogTrigger>
@@ -44,9 +43,12 @@ const GroupMembersDialog = ({ selectedConversation }: GroupMembersDialogProps) =
                                     <div className='w-full '>
                                         <div className='flex items-center gap-2'>
                                             <h3 className='text-md font-medium'>
+                                                {/* johndoe@gmail.com */}
                                                 {user.name || user.email.split("@")[0]}
                                             </h3>
-                                            {user._id === selectedConversation.admin && <Crown size={16} className='text-yellow-400' />}
+                                            {user._id === selectedConversation.admin && (
+                                                <Crown size={16} className='text-yellow-400' />
+                                            )}
                                         </div>
                                     </div>
                                 </div>

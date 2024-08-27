@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu';
-import { ImageIcon, Plus, Video } from 'lucide-react';
-import { Dialog, DialogContent, DialogDescription } from '../ui/dialog';
-import Image from 'next/image';
+import { useEffect, useRef, useState } from "react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { ImageIcon, Plus, Video } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
+import { Button } from "../ui/button";
+import Image from "next/image";
 import ReactPlayer from "react-player";
-import { Button } from '../ui/button';
-import { useMutation, useQuery } from 'convex/react';
-import { api } from '../../../convex/_generated/api';
-import { useConversationStore } from '@/store/chat-store';
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../../convex/_generated/api";
+import { useConversationStore } from "@/store/chat-store";
 
 const MediaDropdown = () => {
     const imageInput = useRef<HTMLInputElement>(null);
@@ -22,6 +22,7 @@ const MediaDropdown = () => {
     const sendImage = useMutation(api.messages.sendImage);
     const sendVideo = useMutation(api.messages.sendVideo);
     const me = useQuery(api.users.getMe);
+
     const { selectedConversation } = useConversationStore();
 
     const handleSendImage = async () => {
@@ -53,28 +54,28 @@ const MediaDropdown = () => {
     };
 
     const handleSendVideo = async () => {
-        // setIsLoading(true);
-        // try {
-        // 	const postUrl = await generateUploadUrl();
-        // 	const result = await fetch(postUrl, {
-        // 		method: "POST",
-        // 		headers: { "Content-Type": selectedVideo!.type },
-        // 		body: selectedVideo,
-        // 	});
+        setIsLoading(true);
+        try {
+            const postUrl = await generateUploadUrl();
+            const result = await fetch(postUrl, {
+                method: "POST",
+                headers: { "Content-Type": selectedVideo!.type },
+                body: selectedVideo,
+            });
 
-        // 	const { storageId } = await result.json();
+            const { storageId } = await result.json();
 
-        // 	await sendVideo({
-        // 		videoId: storageId,
-        // 		conversation: selectedConversation!._id,
-        // 		sender: me!._id,
-        // 	});
+            await sendVideo({
+                videoId: storageId,
+                conversation: selectedConversation!._id,
+                sender: me!._id,
+            });
 
-        // 	setSelectedVideo(null);
-        // } catch (error) {
-        // } finally {
-        // 	setIsLoading(false);
-        // }
+            setSelectedVideo(null);
+        } catch (error) {
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -94,6 +95,7 @@ const MediaDropdown = () => {
                 onChange={(e) => setSelectedVideo(e.target?.files![0])}
                 hidden
             />
+
             {selectedImage && (
                 <MediaImageDialog
                     isOpen={selectedImage !== null}
@@ -104,7 +106,6 @@ const MediaDropdown = () => {
                 />
             )}
 
-
             {selectedVideo && (
                 <MediaVideoDialog
                     isOpen={selectedVideo !== null}
@@ -114,7 +115,6 @@ const MediaDropdown = () => {
                     handleSendVideo={handleSendVideo}
                 />
             )}
-
 
             <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -132,11 +132,9 @@ const MediaDropdown = () => {
                 </DropdownMenuContent>
             </DropdownMenu>
         </>
-    )
-}
-
+    );
+};
 export default MediaDropdown;
-
 
 type MediaImageDialogProps = {
     isOpen: boolean;

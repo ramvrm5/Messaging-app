@@ -18,17 +18,16 @@ const MessageInput = () => {
     const me = useQuery(api.users.getMe);
     const sendTextMsg = useMutation(api.messages.sendTextMessage);
 
-
     const handleSendTextMsg = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await sendTextMsg({ content: msgText, conversation: selectedConversation!._id, sender: me!._id })
-            setMsgText('')
+            await sendTextMsg({ content: msgText, conversation: selectedConversation!._id, sender: me!._id });
+            setMsgText("");
         } catch (err: any) {
             toast.error(err.message);
             console.error(err);
         }
-    }
+    };
 
     return (
         <div className='bg-gray-primary p-2 flex gap-4 items-center'>
@@ -38,16 +37,14 @@ const MessageInput = () => {
                     {isComponentVisible && (
                         <EmojiPicker
                             theme={Theme.DARK}
-                            onEmojiClick={(emojiObject, e) => {
-                                setMsgText((prev) => prev + emojiObject.emoji)
+                            onEmojiClick={(emojiObject) => {
+                                setMsgText((prev) => prev + emojiObject.emoji);
                             }}
-                            style={{ position: 'absolute', bottom: "1.5rem", left: "1rem", zIndex: 50 }}
+                            style={{ position: "absolute", bottom: "1.5rem", left: "1rem", zIndex: 50 }}
                         />
                     )}
-
                     <Laugh className='text-gray-600 dark:text-gray-400' />
                 </div>
-                {/* <Plus className='text-gray-600 dark:text-gray-400' /> */}
                 <MediaDropdown />
             </div>
             <form onSubmit={handleSendTextMsg} className='w-full flex gap-3'>
