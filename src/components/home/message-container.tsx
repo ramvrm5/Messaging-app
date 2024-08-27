@@ -1,10 +1,10 @@
 import ChatBubble from "./chat-bubble";
 import { useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useConversationsStore } from "@/store/chat-store";
+import { useConversationStore } from "@/store/chat-store";
 
 const MessageContainer = () => {
-    const { selectedConversation } = useConversationsStore();
+    const { selectedConversation } = useConversationStore();
     const messages = useQuery(api.messages.getMessages, {
         conversation: selectedConversation!._id,
     })

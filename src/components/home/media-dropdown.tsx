@@ -7,7 +7,7 @@ import ReactPlayer from "react-player";
 import { Button } from '../ui/button';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
-import { useConversationsStore } from '@/store/chat-store';
+import { useConversationStore } from '@/store/chat-store';
 import toast from 'react-hot-toast';
 
 const MediaDropdown = () => {
@@ -22,7 +22,7 @@ const MediaDropdown = () => {
     const sendImage = useMutation(api.messages.sendImage);
     const sendVideo = useMutation(api.messages.sendVideo);
     const me = useQuery(api.users.getMe);
-    const { selectedConversation } = useConversationsStore();
+    const { selectedConversation } = useConversationStore();
 
     const handleSendImage = async () => {
         setIsLoading(true);

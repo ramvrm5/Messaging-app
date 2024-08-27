@@ -8,7 +8,7 @@ import UserListDialog from "./user-list-dialog";
 import { useConvexAuth, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useEffect } from "react";
-import { useConversationsStore } from "@/store/chat-store";
+import { useConversationStore } from "@/store/chat-store";
 
 const LeftPanel = () => {
     //const conversations = [];
@@ -16,7 +16,7 @@ const LeftPanel = () => {
 
     const conversations = useQuery(api.conversations.getMyConversations, isAuthenticated ? undefined : "skip");
 
-    const { selectedConversation, setSelectedConversation } = useConversationsStore();
+    const { selectedConversation, setSelectedConversation } = useConversationStore();
 
     useEffect(() => {
         const conversationIds = conversations?.map((conversation) => conversation._id);

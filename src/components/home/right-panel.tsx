@@ -5,11 +5,11 @@ import MessageInput from "./message-input";
 import MessageContainer from "./message-container";
 import ChatPlaceHolder from "@/components/home/chat-placeholder";
 import GroupMembersDialog from "./group-members-dialog";
-import { useConversationsStore } from "@/store/chat-store";
+import { useConversationStore } from "@/store/chat-store";
 import { useConvexAuth } from "convex/react";
 
 const RightPanel = () => {
-    const { selectedConversation, setSelectedConversation } = useConversationsStore();
+    const { selectedConversation, setSelectedConversation } = useConversationStore();
     const { isLoading } = useConvexAuth();
 
     if (isLoading) return null;

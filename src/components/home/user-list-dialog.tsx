@@ -18,7 +18,7 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { api } from "../../../convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 import toast from "react-hot-toast";
-import { useConversationsStore } from "@/store/chat-store";
+import { useConversationStore } from "@/store/chat-store";
 
 const UserListDialog = () => {
     const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
@@ -34,7 +34,7 @@ const UserListDialog = () => {
     const me = useQuery(api.users.getMe);
     const users = useQuery(api.users.getUsers);
 
-    const { setSelectedConversation } = useConversationsStore();
+    const { setSelectedConversation } = useConversationStore();
 
     const handleCreateConversation = async () => {
         if (selectedUsers.length === 0) return;
