@@ -10,9 +10,8 @@ export const sendTextMessage = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
     if (!identity) {
-      throw new ConvexError("Unauthorized");
+      throw new ConvexError("Not authenticated");
     }
 
     const user = await ctx.db
@@ -36,7 +35,7 @@ export const sendTextMessage = mutation({
     }
 
     if (!conversation.participants.includes(user._id)) {
-      throw new ConvexError("User is not a part of this conversation");
+      throw new ConvexError("You are not part of this conversation");
     }
 
     await ctx.db.insert("messages", {
@@ -50,6 +49,13 @@ export const sendTextMessage = mutation({
     if (args.content.startsWith("@gpt")) {
       // Schedule the chat action to run immediately
       await ctx.scheduler.runAfter(0, api.openai.chat, {
+        messageBody: args.content,
+        conversation: args.conversation,
+      });
+    }
+
+    if (args.content.startsWith("@dall-e")) {
+      await ctx.scheduler.runAfter(0, api.openai.dall_e, {
         messageBody: args.content,
         conversation: args.conversation,
       });
@@ -73,7 +79,7 @@ export const sendChatGPTMessage = mutation({
   },
 });
 
-// optimized
+// Optimized
 export const getMessages = query({
   args: {
     conversation: v.id("conversations"),
@@ -171,34 +177,32 @@ export const sendVideo = mutation({
 // unoptimized
 
 // export const getMessages = query({
-//   args: {
-//     conversation: v.id("conversations"),
-//   },
-//   handler: async (ctx, args) => {
-//     const identity = await ctx.auth.getUserIdentity();
+// 	args:{
+// 		conversation: v.id("conversations"),
+// 	},
+// 	handler: async (ctx, args) => {
+// 		const identity = await ctx.auth.getUserIdentity();
+// 		if (!identity) {
+// 			throw new ConvexError("Not authenticated");
+// 		}
 
-//     if (!identity) {
-//       throw new ConvexError("Unauthorized");
-//     }
+// 		const messages = await ctx.db
+// 		.query("messages")
+// 		.withIndex("by_conversation", q=> q.eq("conversation", args.conversation))
+// 		.collect();
 
-//     const messages = await ctx.db
-//       .query("messages")
-//       .withIndex("by_conversation", (q) =>
-//         q.eq("conversation", args.conversation)
-//       )
-//       .collect();
+// 		// john => 200 , 1
+// 		const messagesWithSender = await Promise.all(
+// 			messages.map(async (message) => {
+// 				const sender = await ctx.db
+// 				.query("users")
+// 				.filter(q => q.eq(q.field("_id"), message.sender))
+// 				.first();
 
-//     const messagesWithSender = await Promise.all(
-//       messages.map(async (message) => {
-//         const sender = await ctx.db
-//           .query("users")
-//           .filter((q) => q.eq(q.field("_id"), message.sender))
-//           .first();
+// 				return {...message,sender}
+// 			})
+// 		)
 
-//         return { ...message, sender };
-//       })
-//     );
-
-//     return messagesWithSender;
-//   },
+// 		return messagesWithSender;
+// 	}
 // });
