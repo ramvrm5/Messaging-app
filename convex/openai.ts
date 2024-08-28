@@ -29,7 +29,6 @@ export const chat = action({
 
     const messageContent = res.choices[0].message.content;
 
-    console.log("entered chat");
     await ctx.runMutation(api.messages.sendChatGPTMessage, {
       content: messageContent ?? "I'm sorry, I don't have a response for that",
       conversation: args.conversation,
